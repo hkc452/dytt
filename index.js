@@ -43,7 +43,9 @@ const init = async () => {
         if (!tag.length) continue
         for (let movie of tag.movies) {
             const toGoPage = await browser.newPage()
-            await toGoPage.goto(movie.toGo)
+            await toGoPage.goto(movie.toGo, {
+                timeout: 60000
+            })
             const link = await toGoPage.evaluate(() => {
                 const links = document.querySelectorAll('#Zoom > span >table>tr>td>a')
                 if (links.length == 1) return links[0].innerText
