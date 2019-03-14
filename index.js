@@ -42,20 +42,20 @@ const init = async () => {
     for (let tag of data) {
         if (!tag.length) continue
         for (let movie of tag.movies) {
-            const toGoPage = await browser.newPage()
-            await toGoPage.goto(movie.toGo)
-            // const link = await toGoPage.emulate(() => {
-            //     const links = document.querySelectorAll('#Zoom > span >table>tr>td>a')
-            //     if (links.length == 1) return links[0].innerText
-            //     const resLinks = []
-            //     links.forEach((i, index)=> {
-            //         resLinks.push({
-            //             index: index +1,
-            //             link:i.innerText
-            //         })
-            //     })
-            //     return resLinks
-            // })
+            // const toGoPage = await browser.newPage()
+            // await toGoPage.goto(movie.toGo)
+            // // const link = await toGoPage.emulate(() => {
+            // //     const links = document.querySelectorAll('#Zoom > span >table>tr>td>a')
+            // //     if (links.length == 1) return links[0].innerText
+            // //     const resLinks = []
+            // //     links.forEach((i, index)=> {
+            // //         resLinks.push({
+            // //             index: index +1,
+            // //             link:i.innerText
+            // //         })
+            // //     })
+            // //     return resLinks
+            // // })
             movie.link = 'link'
         }
     }
