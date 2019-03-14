@@ -55,13 +55,26 @@
                 }
                 
                 const link = await toGoPage.evaluate(() => {
+                    const fallbackLink = (node) => {
+                        // 检查是否满足ftp或者thunder
+                        // 否则从html里面获取
+                        const link = node.innerText
+                        if(/^(ftp|thunder):\/\//.test(link)) return link
+                        const html = node.outerHTML || ''
+                        const match = html.match(/((ftp|thunder).+)\">/)
+                        if(match) {
+                            return match[1]
+                        } else {
+                            return ''
+                        }
+                    }
                     const links = document.querySelectorAll('#Zoom > span >table tr>td>a')
-                    if (links.length == 1) return links[0].innerText
+                    if (links.length == 1) return fallbackLink(links[0])
                     const resLinks = []
-                    links.forEach((i, index)=> {
+                    links.forEach((item, index)=> {
                         resLinks.push({
                             index: index +1,
-                            link:i.innerText
+                            link: fallbackLink(item)
                         })
                     })
                     return resLinks
