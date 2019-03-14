@@ -8,7 +8,9 @@
         //{headless: false}
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto(dytt);
+        await page.goto(dytt, {
+            timeout: 60000
+        });
 
         const data = await page.evaluate(async () => {
             const res = []
