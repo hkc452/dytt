@@ -45,9 +45,15 @@
             if (!tag.length) continue
             for (let movie of tag.movies) {
                 const toGoPage = await browser.newPage()
-                await toGoPage.goto(movie.toGo ,{
-                    timeout: 60000
-                })
+                try {
+                    await toGoPage.goto(movie.toGo ,{
+                        timeout: 60000
+                    })
+                } catch (error) {
+                    console.log(movie.toGo+'失败')
+                    continue;
+                }
+                
                 const link = await toGoPage.evaluate(() => {
                     const links = document.querySelectorAll('#Zoom > span >table tr>td>a')
                     if (links.length == 1) return links[0].innerText
@@ -62,7 +68,6 @@
                 })
                 // toGoPage.close()
                 movie.link = link
-                break;
             }
         }
         console.log('分析结束，耗时：'+ (Date.now()-aStart)/1000 +'s')
