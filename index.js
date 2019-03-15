@@ -61,7 +61,8 @@
                     const fallbackLink = (node) => {
                         // 检查是否满足ftp或者thunder
                         // 否则从html里面获取
-                        const link = node.innerText
+                        // 去掉开头和末尾的空格
+                        const link = (node.innerText || '').replace(/^\s*|\s*$/g, '')
                         // 支持 ftp thunder http(s) 这三种主要协议的下载链接
                         if(/^(ftp|thunder|https?):\/\//.test(link)) return link
                         const html = node.outerHTML || ''
