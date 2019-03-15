@@ -86,7 +86,7 @@
                 })
                 movie.link = link
                 // 关闭tab，减少内存消耗
-                toGoPage.close()
+                await toGoPage.close()
             }
         }
         console.log('分析结束，耗时：'+ (Date.now()-aStart)/1000 +'s')
