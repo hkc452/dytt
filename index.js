@@ -65,14 +65,14 @@
                         // 支持 ftp thunder http(s) 这三种主要协议的下载链接
                         if(/^(ftp|thunder|https?):\/\//.test(link)) return link
                         const html = node.outerHTML || ''
-                        const match = html.match(/((ftp|thunder|https?):\/\/.+)\">/)
+                        const match = html.match(/((ftp|thunder|https?):\/\/[^"]+)/)
                         if(match) {
                             return match[1]
                         } else {
                             return ''
                         }
                     }
-                    const links = document.querySelectorAll('#Zoom > span >table tr>td>a')
+                    const links = document.querySelectorAll('#Zoom > span table tr>td a')
                     if (links.length == 1) return fallbackLink(links[0])
                     const resLinks = []
                     links.forEach((item, index)=> {
