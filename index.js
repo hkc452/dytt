@@ -25,9 +25,9 @@
     const dytt = 'https://www.dytt8.net/'
     const init = async () => {
         //{headless: false}
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch()
         const aStart = Date.now()
-        const page = await browser.newPage();
+        const page = await browser.newPage()
         await page.goto(dytt, {
             timeout: 60000
         });
