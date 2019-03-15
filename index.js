@@ -41,6 +41,7 @@
             return res
         })
         const aStart = Date.now()
+        fs.writeFileSync('init.json', JSON.stringify(data, null, 2))
         console.log('开始分析链接')
         // 生成下载链接
         for (let tag of data) {
@@ -61,9 +62,9 @@
                         // 检查是否满足ftp或者thunder
                         // 否则从html里面获取
                         const link = node.innerText
-                        if(/^(ftp|thunder):\/\//.test(link)) return link
+                        if(/^(ftp|thunder|https?):\/\//.test(link)) return link
                         const html = node.outerHTML || ''
-                        const match = html.match(/((ftp|thunder).+)\">/)
+                        const match = html.match(/((ftp|thunder|https?).+)\">/)
                         if(match) {
                             return match[1]
                         } else {
@@ -81,8 +82,9 @@
                     })
                     return resLinks
                 })
-                // toGoPage.close()
                 movie.link = link
+                // 关闭tab，减少内存消耗
+                toGoPage.close()
             }
         }
         console.log('分析结束，耗时：'+ (Date.now()-aStart)/1000 +'s')
