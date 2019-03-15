@@ -23,9 +23,7 @@
                 for (let tr of moviesCons) {
                     const tds =tr.querySelectorAll('td')
                     if (tds.length < 2 ) continue
-                    // toDO 拿到链接
                     const toGo = tds[0].children[1].href
-                    
                     movies.push({
                         title: tds[0].children[1].innerText,
                         date: tds[1].textContent,
@@ -46,6 +44,7 @@
         // 生成下载链接
         for (let tag of data) {
             if (!tag.length) continue
+            //TODO 改成cluster
             for (let movie of tag.movies) {
                 const toGoPage = await browser.newPage()
                 try {
