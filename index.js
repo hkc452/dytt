@@ -62,9 +62,10 @@
                         // 检查是否满足ftp或者thunder
                         // 否则从html里面获取
                         const link = node.innerText
+                        // 支持 ftp thunder http(s) 这三种主要协议的下载链接
                         if(/^(ftp|thunder|https?):\/\//.test(link)) return link
                         const html = node.outerHTML || ''
-                        const match = html.match(/((ftp|thunder|https?).+)\">/)
+                        const match = html.match(/((ftp|thunder|https?):\/\/.+)\">/)
                         if(match) {
                             return match[1]
                         } else {
@@ -76,6 +77,7 @@
                     const resLinks = []
                     links.forEach((item, index)=> {
                         resLinks.push({
+                            // TODO 修复集数问题，因为有些不是从第一集开始的
                             index: index +1,
                             link: fallbackLink(item)
                         })
