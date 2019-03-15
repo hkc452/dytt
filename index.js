@@ -1,12 +1,32 @@
     const puppeteer = require('puppeteer')
     const fs = require('fs')
+    const winston = require('winston')
+    const path = require('path')
+    const logName = (...agrs) => {
+        return path.join('logs', ...agrs)
+    }   
+    const logger = winston.createLogger({
+        level: 'info',
+        format: winston.format.json(),
+        defaultMeta: { service: 'user-service' },
+        transports: [
+            //
+            // - Write to all logs with level `info` and below to `combined.log` 
+            // - Write all logs error (and below) to `error.log`.
+            //
+            new winston.transports.File({ filename: logName('error.log'), level: 'error' }),
+            new winston.transports.File({ filename: logName('combined.log') })
+        ]
+    });
 
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+    }));
     const dytt = 'https://www.dytt8.net/'
-
-
     const init = async () => {
         //{headless: false}
         const browser = await puppeteer.launch();
+        const aStart = Date.now()
         const page = await browser.newPage();
         await page.goto(dytt, {
             timeout: 60000
@@ -38,9 +58,8 @@
             }
             return res
         })
-        const aStart = Date.now()
         fs.writeFileSync('init.json', JSON.stringify(data, null, 2))
-        console.log('开始分析链接')
+        logger.info('开始分析链接')
         // 生成下载链接
         for (let tag of data) {
             if (!tag.length) continue
@@ -89,9 +108,8 @@
                 await toGoPage.close()
             }
         }
-        console.log('分析结束，耗时：'+ (Date.now()-aStart)/1000 +'s')
-        // console.log(data)
-        fs.writeFileSync('1.json', JSON.stringify(data, null, 2))
+        logger.info('分析结束，耗时：'+ (Date.now()-aStart)/1000 +'s')
+        fs.writeFileSync('result.json', JSON.stringify(data, null, 2))
         await browser.close();
     }
 
