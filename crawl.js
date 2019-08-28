@@ -56,4 +56,3 @@ let crwal = async (browser, url, format = false) => {
     await browser.close()
 }
 module.exports = crwal
-crwal('https://www.dytt8.net/html/tv/hytv/20190808/58968.html')
