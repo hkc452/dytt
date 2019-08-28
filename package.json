@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node ./index.js"
   },
+  "bin": {
+    "dytt":"./bin/dytt.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
