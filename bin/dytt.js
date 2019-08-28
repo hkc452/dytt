@@ -7,7 +7,12 @@ const asserUrl = (url) => {
     if (/^https?:\/\/www\.dytt8\.net(\/\w+?)+\.html?$/.test(url)) return true
     return false
 }
-for (let url of urls) {
-    if (!asserUrl(url)) continue
-    crawl(url)
+
+const start = async() => {
+    for (let url of urls) {
+        if (!asserUrl(url)) continue
+        await crawl(url)
+    }
+    process.exit(0)
 }
+start()

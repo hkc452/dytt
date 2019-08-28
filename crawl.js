@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer')
 const fs = require('fs')
-let crwal = async (browser, url, format = false) => {
+const path = require('path')
+let crawl = async (browser, url, format = false) => {
     if (typeof browser === 'string') {
         url = browser
         browser = await puppeteer.launch()
@@ -33,8 +34,7 @@ let crwal = async (browser, url, format = false) => {
         }
         name = document.querySelector('#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.title_all > h1 > font').innerHTML || Date.now()
         const links = document.querySelectorAll('#Zoom > span table tr>td a')
-        if (links.length == 1) return fallbackLink(links[0])
-        const resLinks = []
+        let resLinks = format ? [] : ''
         links.forEach((item, index)=> {
             if (format) {
                 resLinks.push({
@@ -43,7 +43,7 @@ let crwal = async (browser, url, format = false) => {
                     link: fallbackLink(item)
                 })
             } else {
-                resLinks.push(fallbackLink(item))
+                resLinks+= '\n'+ fallbackLink(item)
             }
             
         })
@@ -52,7 +52,7 @@ let crwal = async (browser, url, format = false) => {
             name: name
         }
     }, format)
-    fs.writeFileSync(`${result.name}.text`, JSON.stringify(result.link, null, 2))
+    fs.writeFileSync(path.join(process.cwd(),`${result.name}.text`), format ? JSON.stringify(result.link, null, 2) : result.link)
     await browser.close()
 }
-module.exports = crwal
+module.exports = crawl
